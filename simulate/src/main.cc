@@ -553,10 +553,13 @@ void *UnitreeSdk2BridgeThread(void *arg)
   if (body_id < 0) {
     body_id = mj_name2id(m, mjOBJ_BODY, "base_link");
   }
+  if (body_id < 0) {
+    body_id = mj_name2id(m, mjOBJ_BODY, "pelvis");
+  }
   param::config.band_attached_link = 6 * body_id;
   
   std::unique_ptr<UnitreeSDK2BridgeBase> interface = nullptr;
-  if (m->nu > NUM_MOTOR_IDL_GO) {
+  if (param::config.robot == "h1" || param::config.robot == "g1" || m->nu > NUM_MOTOR_IDL_GO) {
     interface = std::make_unique<G1Bridge>(m, d);
   } else {
     interface = std::make_unique<Go2Bridge>(m, d);

@@ -18,6 +18,8 @@
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
+#define mjPRESERVE 0
+#define mjPRESERVE 0
 #include <memory>
 #include <mutex>
 #include <optional>

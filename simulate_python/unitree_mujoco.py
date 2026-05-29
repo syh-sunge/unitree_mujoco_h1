@@ -22,7 +22,9 @@ mj_data = mujoco.MjData(mj_model)
 # ELASTIC BAND for humanoid robot
 if config.ENABLE_ELASTIC_BAND:
     elastic_band = ElasticBand()
-    if config.ROBOT == "h1" or config.ROBOT == "g1":
+    if config.ROBOT == "h1":
+        band_attached_link = mj_model.body("pelvis").id
+    elif config.ROBOT == "g1":
         band_attached_link = mj_model.body("torso_link").id
     else:
         band_attached_link = mj_model.body("base_link").id

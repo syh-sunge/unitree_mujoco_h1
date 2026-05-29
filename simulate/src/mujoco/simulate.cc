@@ -746,8 +746,8 @@ namespace
         {mjITEM_EDITNUM, "LS Tol", 2, &(opt->ls_tolerance), "1 0 0.1"},
         {mjITEM_EDITINT, "Noslip Iter", 2, &(opt->noslip_iterations), "1 0 1000"},
         {mjITEM_EDITNUM, "Noslip Tol", 2, &(opt->noslip_tolerance), "1 0 1"},
-        {mjITEM_EDITINT, "CCD Iter", 2, &(opt->ccd_iterations), "1 0 1000"},
-        {mjITEM_EDITNUM, "CCD Tol", 2, &(opt->ccd_tolerance), "1 0 1"},
+        {mjITEM_EDITINT, "CCD Iter", 2, &(opt->ls_iterations), "1 0 1000"},
+        {mjITEM_EDITNUM, "CCD Tol", 2, &(opt->ls_tolerance), "1 0 1"},
         {mjITEM_EDITNUM, "API Rate", 2, &(opt->apirate), "1 0 1000"},
         {mjITEM_EDITINT, "SDF Iter", 2, &(opt->sdf_iterations), "1 1 20"},
         {mjITEM_EDITINT, "SDF Init", 2, &(opt->sdf_initpoints), "1 1 100"},
@@ -1882,6 +1882,9 @@ namespace
         sim->cam.fixedcamid = -1;
         const char* robot_base_name = "base_link";
         int robot_base_id = mj_name2id(sim->m_, mjOBJ_BODY, robot_base_name);
+        if (robot_base_id < 0) {
+          robot_base_id = mj_name2id(sim->m_, mjOBJ_BODY, "pelvis");
+        }
         sim->cam.trackbodyid = robot_base_id;
         sim->camera = 1;
         mjui0_update_section(sim, SECT_RENDERING);
@@ -2142,7 +2145,7 @@ namespace mujoco
       X(impratio);
       X(tolerance);
       X(noslip_tolerance);
-      X(ccd_tolerance);
+      X(ls_tolerance);
       X(gravity);
       X(wind);
       X(magnetic);
@@ -2158,7 +2161,7 @@ namespace mujoco
       X(solver);
       X(iterations);
       X(noslip_iterations);
-      X(ccd_iterations);
+      X(ls_iterations);
       X(disableflags);
       X(enableflags);
       X(disableactuator);
@@ -2255,7 +2258,7 @@ namespace mujoco
 
     if (pending_.save_key)
     {
-      mj_setKeyframe(m_, d_, this->key);
+      mj_resetDataKeyframe(m_, d_, this->key);
       pending_.save_key = false;
     }
 
