@@ -23,7 +23,3 @@ The architecture is the same as the original [unitree_sdk2](https://github.com/u
   The processed depth image is published to a dds topic named "rt/depthimage" using cyclonedds.
 
 - Press `Enter` to track base_link of the robot, press `Esc` to use free camera
-
-## Demo
-
-![](https://github.com/lupinjia/demo_imgs/blob/master/unitree_mujoco_demo.gif)
